@@ -1,17 +1,20 @@
 extends KinematicBody2D
 
-var p_velocity = Vector2(0,0)
+var player_velocity = Vector2(0,0)
+const K_VELOCITY = 10
 
 func _physics_process(delta):
 	getMove()
-	move_and_slide(p_velocity)
+	if Input.is_action_pressed("touch"):
+		player_velocity +=  (get_global_mouse_position() - position).normalized() * K_VELOCITY
+	move_and_slide(player_velocity)
 
 func getMove():
 	if Input.is_action_pressed("ui_right"):
-		p_velocity.x += 10
+		player_velocity.x += K_VELOCITY
 	if Input.is_action_pressed("ui_left"):
-		p_velocity.x -= 10
+		player_velocity.x -= K_VELOCITY
 	if Input.is_action_pressed("ui_up"):
-		p_velocity.y -= 10
+		player_velocity.y -= K_VELOCITY
 	if Input.is_action_pressed("ui_down"):
-		p_velocity.y += 10
+		player_velocity.y += K_VELOCITY
